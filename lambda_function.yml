@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaExecutionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action:
+          - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: LambdaFullAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement: 
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+            
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: "lambda_function_through_cft"
+      Handler: index.lambda_handler
+      MemorySize: 128
+      Runtime: python3.12
+      Role: !GetAtt 'LambdaExecutionRole.Arn'
+      Timeout: 240
+      Code:
+        ZipFile: |
+            import json
+            def lambda_handler(event, context):
+                print("This Lambda function is created using CFT!!!")
+  
