@@ -16,15 +16,15 @@ Resources:
         - PolicyName: LambdaFullAccessPolicy
           PolicyDocument:
             Version: '2012-10-17'
-            Statement: 
+            Statement:
               - Effect: Allow
                 Action: "*"
                 Resource: "*"
-            
-  LambdaFunction:
+
+  LambdaFunction1:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: "lambda_function_through_cft"
+      FunctionName: "lambda1"
       Handler: index.lambda_handler
       MemorySize: 128
       Runtime: python3.12
@@ -34,5 +34,34 @@ Resources:
         ZipFile: |
             import json
             def lambda_handler(event, context):
-                print("This Lambda function is created using CFT!!!")
-  
+                print("I am in Lambda1!")
+
+  LambdaFunction2:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: "lambda2"
+      Handler: index.lambda_handler
+      MemorySize: 128
+      Runtime: python3.12
+      Role: !GetAtt 'LambdaExecutionRole.Arn'
+      Timeout: 240
+      Code:
+        ZipFile: |
+            import json
+            def lambda_handler(event, context):
+                print("I am in Lambda2!")
+
+  LambdaFunction3:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: "lambda3"
+      Handler: index.lambda_handler
+      MemorySize: 128
+      Runtime: python3.12
+      Role: !GetAtt 'LambdaExecutionRole.Arn'
+      Timeout: 240
+      Code:
+        ZipFile: |
+            import json
+            def lambda_handler(event, context):
+                print("I am in Lambda3!")
